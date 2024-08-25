@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
+
+Auth::routes();
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index']);
+    // other admin routes
+});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
