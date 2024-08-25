@@ -58,7 +58,7 @@ class AuthController extends Controller
             if ($validator->fails()) {
                 return response()->json(['errors' => Helpers::error_processor($validator)], 403);
             }
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->where('role', 'employee')->first();
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
                     'email' => ['The provided credentials are incorrect.'],
@@ -132,6 +132,6 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out successfully']);
+        return response()->json(['message' => 'Logged out successfully','user-role'=>'Employee']);
     }
 }
