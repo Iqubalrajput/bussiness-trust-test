@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Exceptions;
-
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -18,6 +18,16 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'message' => 'Unauthenticated. Please provide valid credentials.'
+            ], 401);
+        }
+
+        return parent::render($request, $exception);
+    }
     /**
      * Register the exception handling callbacks for the application.
      */
