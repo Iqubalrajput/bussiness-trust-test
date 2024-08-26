@@ -8,6 +8,8 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\AdvanceSalaryController;
 
+use Barryvdh\DomPDF\Facade as PDF;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -61,6 +63,14 @@ Route::prefix('admin')->group(function () {
             Route::put('/update', [AuthController::class, 'update']);
             Route::post('/logout', [AdminController::class, 'logout']);
         });
+        Route::post('employees', [AdminController::class, 'addEmployee']); 
+        Route::put('employees/{id}', [AdminController::class, 'updateEmployee']);
+        Route::delete('employees/{id}', [AdminController::class, 'deleteEmployee']); 
+
+        Route::post('leaves/{id}/manage', [AdminController::class, 'manageLeave']); 
+
+        Route::post('advance-salaries/{id}/manage', [AdminController::class, 'manageAdvanceSalary']); 
+        Route::post('salaries/generate-monthly', [AdminController::class, 'generateMonthlySalary']); 
     });
 });
 
