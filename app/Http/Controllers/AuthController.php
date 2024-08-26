@@ -98,6 +98,12 @@ class AuthController extends Controller
                 return response()->json(['errors' => Helpers::error_processor($validator)], 403);
             }
             $user = User::findOrFail($request->id);
+            if ($user->role === 'admin') {
+                return response()->json([
+                    'message' => 'Admin users cannot be updated.',
+                    'status' => 403
+                ], 403);
+            }
             // Update user details
             if ($request->has('name')) {
                 $user->name = $request->name;
@@ -126,7 +132,36 @@ class AuthController extends Controller
         }
     }
 
-    
+    public function checkProfileDetails(Request $request)
+    {
+        try {
+             $user = auth()->user();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'User not found',
+                    'status' => 404
+                ], 404);
+            }
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'created_at' => $user->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $user->updated_at->format('Y-m-d H:i:s'),
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     public function logout(Request $request)
     {

@@ -20,6 +20,7 @@ class AdminController extends Controller
     }
     public function Login(Request $request)
     {
+       
         try {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
@@ -31,7 +32,6 @@ class AdminController extends Controller
             }
 
             $user = User::where('email', $request->email)->where('role', 'admin')->first();
-
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
                     'email' => ['The provided credentials are incorrect.'],
