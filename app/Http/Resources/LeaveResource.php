@@ -20,6 +20,7 @@ class LeaveResource extends JsonResource
             'leave_date' => $this->leave_date,
             'leave_type' => $this->leave_type,
             'reason' => $this->reason,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

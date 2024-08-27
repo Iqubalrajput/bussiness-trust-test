@@ -20,6 +20,7 @@ class AdvanceSalaryResource extends JsonResource
             'amount' => $this->amount,
             'advance_date' => $this->advance_date,
             'reason' => $this->reason,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
